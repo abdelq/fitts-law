@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         myLayout = findViewById(R.id.myLayout);
         chrono = new Chronometer(this);
 
-        difficulty = new double[maxtry];
+        difficulty = new double[maxTry];
         timeResult = new float[maxTry];
 
         startButton = findViewById(R.id.startButton);
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         double D = Math.sqrt(Math.pow((x2-x1),2) + Math.pow((y2-y1),2));
         double S = buttonDimension;
         
-        return (Math.log(D/s + 1)/Math.log(2));
+        return (Math.log(D/S + 1)/Math.log(2));
     }
     
 }

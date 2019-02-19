@@ -18,13 +18,23 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout myLayout;
 
     private int screenWidth, screenHeight;
-    private int smallerDimension;
 
-    private Random rand = new Random();
+    // valeurs de la position (x, y) du bouton
+    private double random_x, random_y;
+    
+    // valeurs du positionnement du clique courrant et précédent
+    private double current_x, current_y, past_x, past_y;
+    
+    // largeur du bouton
+    private int buttonDimension;
 
-    private int count=-1;
-    private int maxTry;
+    private int count= -1;
+    private int maxTry = 20;
+    
+    // tableau des temps
     private float[] timeResult;
+    // tableau des indices de difficulté
+    private double[] difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         myLayout = findViewById(R.id.myLayout);
         chrono = new Chronometer(this);
 
-        maxTry = 20;
+        difficulty = new double[maxtry];
         timeResult = new float[maxTry];
 
         startButton = findViewById(R.id.startButton);
@@ -59,8 +69,12 @@ public class MainActivity extends AppCompatActivity {
                 button.setOnTouchListener(mainButtonOnTouchListener);
                 button.setBackgroundColor(getResources().getColor(R.color.purple));
                 myLayout.addView(button);
+                
+                past_x = event.getX();
+                past_y = event.getY();
 
-                onNextButton((int) event.getX(), (int) event.getY());
+                changeButton();
+                
                 chrono.setBase(SystemClock.elapsedRealtime());
                 chrono.start();
             }
@@ -75,13 +89,25 @@ public class MainActivity extends AppCompatActivity {
             switch (event.getAction()){
                 case MotionEvent.ACTION_DOWN:
                     chrono.stop();
-                    timeResult[count] = SystemClock.elapsedRealtime()-chrono.getBase();
                     break;
                 case MotionEvent.ACTION_UP:
-                    onNextButton((int) event.getX(), (int) event.getY());
-
-                    chrono.setBase(SystemClock.elapsedRealtime());
-                    chrono.start();
+                    if (++count < maxTry) {
+                        timeResult[count] = SystemClock.elapsedRealtime() - 
+                            chrono.getBase();
+                        
+                        current_x = event.getX();
+                        current_y = event.getY();
+                        difficulty[count] = getDifficulty(past_x, past_y,
+                                                          current_x, current_y);
+                        past_x = current_x;
+                        past_y = current_y;
+                        
+                        changeButton();
+                        chrono.setBase(SystemClock.elapsedRealtime());
+                        chrono.start();
+                    } else {
+                        button.setVisibility(View.GONE);
+                    }
             }
             return false;
         }
@@ -91,41 +117,44 @@ public class MainActivity extends AppCompatActivity {
         screenHeight = myLayout.getHeight();
         screenWidth = myLayout.getWidth();
 
-        if(screenHeight > screenWidth)
-            smallerDimension = screenWidth;
-        else
-            smallerDimension = screenHeight;
-    }
-
-    public int adaptDimension(int position, int buttonDimension, int screenDimension){
-        int diff = screenDimension-(position+buttonDimension);
-
-        if(diff > 0) {
-            if (position < 0)
-                return position * -1;
-            return 0;
+        if(screenHeight < screenWidth) {
+            int temp = screenHeight;
+            screenHeight = screenWidth;
+            screenWidth = temp;
         }
-        else
-            return diff;
+        // Je dois utiliser ces données car sinon ce n'est
+        // pas les bonne valeurs trouvées par la fonction
+        // à corriger
+        screenWidth = 915;
+        screenHeight = 1420;    
     }
-
-
-    public void onNextButton(int x, int y){
-        if(++count >= maxTry){
-            button.setVisibility(View.GONE);
-            //TODO: Afficher liste de résultat
-        }
-
-        //FIXME: Fonctionne si je met *0.25+0.25. Mais dans notre cas on veut *0.46+0.04, mais parfois on obtient un rectangle avec ses valeurs... Est-ce qu'il faudrait mettre un mini délai?
-        int buttonDimension = (int) Math.floor(smallerDimension*(rand.nextDouble()*0.46+0.04));
-
+    
+    // fonction qui s'occupe de changer la taille et la position du bouton
+    public void changeButton() {
+        Random rand = new Random();
+        
+        buttonDimension = (int) (screenWidth * (rand.nextDouble()*0.5 + 0.04));
+        
+        //je n'ai pas été capable de changer le fait
+        //que cela donne des rectangles
+        // à corriger
         button.setWidth(buttonDimension);
         button.setHeight(buttonDimension);
-
-        int touchX = (int) button.getX()+x;
-        int touchY = (int) button.getY()+y;
-
-        button.setX(touchX+adaptDimension(touchX, buttonDimension, screenWidth));
-        button.setY(touchY+adaptDimension(touchY, buttonDimension, screenHeight));
+        
+        random_x = Math.random() * (screenWidth - buttonDimension);
+        random_y = Math.random() * (screenHeight - buttonDimension);
+        
+        button.setX((float) random_x);
+        button.setY((float) random_y);
     }
+    
+    // fonction qui détermine l'indice de difficulté
+    public double getDifficulty(double x1, double y1,
+                                double x2, double y2) {
+        double D = Math.sqrt(Math.pow((x2-x1),2) + Math.pow((y2-y1),2));
+        double S = buttonDimension;
+        
+        return (Math.log(D/s + 1)/Math.log(2));
+    }
+    
 }

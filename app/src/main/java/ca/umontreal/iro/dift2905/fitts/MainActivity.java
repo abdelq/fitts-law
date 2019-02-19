@@ -7,6 +7,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private Chronometer chrono;
     private Button startButton, button;
     private ConstraintLayout myLayout;
+    private ViewGroup.LayoutParams params;
 
     private int screenWidth, screenHeight;
 
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         myLayout = findViewById(R.id.myLayout);
         chrono = new Chronometer(this);
+        params = new ConstraintLayout.LayoutParams(100,100);
 
         difficulty = new double[maxTry];
         timeResult = new float[maxTry];
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
                 button.setOnTouchListener(mainButtonOnTouchListener);
                 button.setBackgroundColor(getResources().getColor(R.color.purple));
+                button.setLayoutParams(params);
                 myLayout.addView(button);
                 
                 past_x = event.getX();
@@ -135,11 +139,9 @@ public class MainActivity extends AppCompatActivity {
         
         buttonDimension = (int) (screenWidth * (rand.nextDouble()*0.5 + 0.04));
         
-        //je n'ai pas été capable de changer le fait
-        //que cela donne des rectangles
-        // à corriger
-        button.setWidth(buttonDimension);
-        button.setHeight(buttonDimension);
+        params.height = buttonDimension;
+        params.width = buttonDimension;
+        button.setLayoutParams(params);
         
         random_x = Math.random() * (screenWidth - buttonDimension);
         random_y = Math.random() * (screenHeight - buttonDimension);

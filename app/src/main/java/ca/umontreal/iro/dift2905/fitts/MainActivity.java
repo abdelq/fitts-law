@@ -119,18 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void getScreenDimensions(){
         screenHeight = myLayout.getHeight();
-        screenWidth = myLayout.getWidth();
-
-        if(screenHeight < screenWidth) {
-            int temp = screenHeight;
-            screenHeight = screenWidth;
-            screenWidth = temp;
-        }
-        // Je dois utiliser ces données car sinon ce n'est
-        // pas les bonne valeurs trouvées par la fonction
-        // à corriger
-        screenWidth = 915;
-        screenHeight = 1420;    
+        screenWidth = myLayout.getWidth();  
     }
     
     // fonction qui s'occupe de changer la taille et la position du bouton

@@ -1,151 +1,117 @@
 package ca.umontreal.iro.dift2905.fitts;
 
-
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Chronometer;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import static java.lang.System.currentTimeMillis;
 
 public class MainActivity extends AppCompatActivity {
-    private Chronometer chrono;
-    private Button startButton, button;
-    private ConstraintLayout myLayout;
-    private ViewGroup.LayoutParams params;
 
-    private int screenWidth, screenHeight;
+    private int layoutWidth, layoutHeight;
+    private int minButtonSize, maxButtonSize;
 
-    // valeurs de la position (x, y) du bouton
-    private double random_x, random_y;
-    
-    // valeurs du positionnement du clique courrant et précédent
-    private double current_x, current_y, past_x, past_y;
-    
-    // largeur du bouton
-    private int buttonDimension;
+    private long lastTime;
+    private float lastPosX, lastPosY;
 
-    private int count= -1;
-    private int maxTry = 20;
-    
-    // tableau des temps
-    private float[] timeResult;
-    // tableau des indices de difficulté
-    private double[] difficulty;
+    private class Trial {
+        private double difficulty;
+        private long duration;
+
+        private Trial(long currTime, float currPosX, float currPosY) {
+            duration = currTime - lastTime;
+            difficulty = calcDifficulty(lastPosX, lastPosY, currPosX, currPosY);
+        }
+
+        private double calcDifficulty(float x1, float y1, float x2, float y2) {
+            double dist = Math.sqrt(Math.pow(x2 - x1, 2) - Math.pow(y2 - y1, 2));
+            double dim = findViewById(R.id.trial_button).getWidth();
+
+            return Math.log(dist/dim + 1) / Math.log(2);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myLayout = findViewById(R.id.myLayout);
-        chrono = new Chronometer(this);
-        params = new ConstraintLayout.LayoutParams(100,100);
+        findViewById(R.id.start_button).setOnTouchListener(startButtonListener);
+        findViewById(R.id.trial_button).setOnTouchListener(trialButtonListener);
 
-        difficulty = new double[maxTry];
-        timeResult = new float[maxTry];
+        Resources res = getResources();
+        float smallestScreenSize = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                res.getConfiguration().smallestScreenWidthDp,
+                res.getDisplayMetrics()
+        );
 
-        startButton = findViewById(R.id.startButton);
-        startButton.setOnTouchListener(startButtonOnTouchListener);
+        minButtonSize = (int) (smallestScreenSize / res.getInteger(R.integer.min_ratio));
+        maxButtonSize = (int) (smallestScreenSize / res.getInteger(R.integer.max_ratio));
     }
 
-    //TODO: Lier la fonction reset au bouton reset de la dernière page
-    private void reset() {
-        //TODO: faire disparaitre ce qui est dans la dernière page
-        count = -1;
-        startButton.setVisibility(View.VISIBLE);
-    }
-
-    View.OnTouchListener startButtonOnTouchListener = new View.OnTouchListener() {
+    View.OnTouchListener startButtonListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            if(event.getAction() == MotionEvent.ACTION_UP){
-                getScreenDimensions();
-                startButton.setVisibility(View.GONE);
-                button = new Button(MainActivity.this);
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                layoutWidth = v.getWidth();
+                layoutHeight = v.getHeight();
+            } else if (event.getAction() == MotionEvent.ACTION_UP) { // XXX Order of operations
+                findViewById(R.id.start_button).setVisibility(View.GONE);
+                findViewById(R.id.trial_button).setVisibility(View.VISIBLE);
 
-                button.setOnTouchListener(mainButtonOnTouchListener);
-                button.setBackgroundColor(getResources().getColor(R.color.purple));
-                button.setLayoutParams(params);
-                myLayout.addView(button);
-                
-                past_x = event.getX();
-                past_y = event.getY();
+                // XXX Refactor
+                lastTime = currentTimeMillis();
+                lastPosX = event.getX();
+                lastPosY = event.getY();
 
-                changeButton();
-                
-                chrono.setBase(SystemClock.elapsedRealtime());
-                chrono.start();
+                newTrial();
+
+                v.performClick(); // XXX
             }
-            return false;
+
+            return true; // XXX
         }
     };
 
-
-    View.OnTouchListener mainButtonOnTouchListener = new View.OnTouchListener() {
+    View.OnTouchListener trialButtonListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()){
-                case MotionEvent.ACTION_DOWN:
-                    chrono.stop();
-                    break;
-                case MotionEvent.ACTION_UP:
-                    if (++count < maxTry) {
-                        timeResult[count] = SystemClock.elapsedRealtime() - 
-                            chrono.getBase();
-                        
-                        current_x = event.getX();
-                        current_y = event.getY();
-                        difficulty[count] = getDifficulty(past_x, past_y,
-                                                          current_x, current_y);
-                        past_x = current_x;
-                        past_y = current_y;
-                        
-                        changeButton();
-                        chrono.setBase(SystemClock.elapsedRealtime());
-                        chrono.start();
-                    } else {
-                        button.setVisibility(View.GONE);
-                    }
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                new Trial(currentTimeMillis(), event.getX(), event.getY()); // TODO
+            } else if (event.getAction() == MotionEvent.ACTION_UP) { // XXX Refactor
+                lastTime = currentTimeMillis();
+                lastPosX = event.getX();
+                lastPosY = event.getY();
+
+                newTrial();
+
+                v.performClick(); // XXX
             }
-            return false;
+
+            return true; // XXX
         }
     };
 
-    public void getScreenDimensions(){
-        screenHeight = myLayout.getHeight();
-        screenWidth = myLayout.getWidth();  
+    private void newTrial() {
+        // TODO Gestion de la fin
+
+        ThreadLocalRandom rand = ThreadLocalRandom.current();
+        int buttonSize = rand.nextInt(minButtonSize, maxButtonSize + 1);
+        float buttonPosX = rand.nextFloat() * (layoutWidth - buttonSize);
+        float buttonPosY = rand.nextFloat() * (layoutHeight - buttonSize);
+
+        Button button = findViewById(R.id.trial_button);
+        button.setLayoutParams(new ConstraintLayout.LayoutParams(buttonSize, buttonSize));
+        button.setX(buttonPosX);
+        button.setY(buttonPosY);
     }
-    
-    // fonction qui s'occupe de changer la taille et la position du bouton
-    public void changeButton() {
-        Random rand = new Random();
-        
-        buttonDimension = (int) (screenWidth * (rand.nextDouble()*0.5 + 0.04));
-        
-        params.height = buttonDimension;
-        params.width = buttonDimension;
-        button.setLayoutParams(params);
-        
-        random_x = Math.random() * (screenWidth - buttonDimension);
-        random_y = Math.random() * (screenHeight - buttonDimension);
-        
-        button.setX((float) random_x);
-        button.setY((float) random_y);
-    }
-    
-    // fonction qui détermine l'indice de difficulté
-    public double getDifficulty(double x1, double y1,
-                                double x2, double y2) {
-        double D = Math.sqrt(Math.pow((x2-x1),2) + Math.pow((y2-y1),2));
-        double S = buttonDimension;
-        
-        return (Math.log(D/S + 1)/Math.log(2));
-    }
-    
 }

@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Loi de Fitts ref</string>
-    <string name="button_start">Cliquez pour commencer</string>
+    <string name="app_name">Fitts\'s law</string>
+    <string name="click_start">Click to start</string>
 </resources>

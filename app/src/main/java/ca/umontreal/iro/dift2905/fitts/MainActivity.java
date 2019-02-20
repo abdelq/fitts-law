@@ -1,5 +1,6 @@
 package ca.umontreal.iro.dift2905.fitts;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -103,6 +104,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void newTrial() {
         // TODO Gestion de la fin
+        if (1 == 1) {
+            Intent myIntent = new Intent(this, ResultActivity.class);
+            startActivity(myIntent);
+            return;
+        }
 
         ThreadLocalRandom rand = ThreadLocalRandom.current();
         int buttonSize = rand.nextInt(minButtonSize, maxButtonSize + 1);
@@ -114,4 +120,12 @@ public class MainActivity extends AppCompatActivity {
         button.setX(buttonPosX);
         button.setY(buttonPosY);
     }
+
+    /*@Override
+    public void onRestart()
+    {
+        super.onRestart();
+        System.out.println("kek");
+        // do some stuff here
+    }*/
 }

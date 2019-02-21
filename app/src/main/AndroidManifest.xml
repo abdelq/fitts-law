@@ -13,7 +13,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ResultActivity"
-            android:label="@string/results"
+            android:label="@string/app_name"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

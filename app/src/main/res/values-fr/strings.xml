@@ -3,4 +3,9 @@
     <string name="app_name">Loi de Fitts</string>
     <string name="click_start">Cliquez pour commencer</string>
     <string name="results">Résultats</string>
+    <string name="export">Exporter</string>
+    <string name="details">Détails</string>
+    <string name="trial_num">Essai #%1$02d</string>
+    <string name="difficulty_val">Difficulté : %1$f</string>
+    <string name="duration_val">Durée : %1$d ms</string>
 </resources>

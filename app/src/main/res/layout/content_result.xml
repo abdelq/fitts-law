@@ -1,9 +1,42 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment"
-    android:name="ca.umontreal.iro.dift2905.fitts.TrialFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:layout="@layout/fragment_result" />
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <fragment
+        android:id="@+id/fragment_result"
+        android:name="ca.umontreal.iro.dift2905.fitts.ResultActivityFragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_trial_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_result" />
+
+    <fragment
+        android:id="@+id/fragment_trial_list"
+        android:name="ca.umontreal.iro.dift2905.fitts.TrialFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toTopOf="@+id/export_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_result"
+        tools:layout="@layout/fragment_trial_list" />
+
+    <Button
+        android:id="@+id/export_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="export"
+        android:text="@string/export"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_trial_list"
+        app:layout_constraintVertical_bias="1.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>

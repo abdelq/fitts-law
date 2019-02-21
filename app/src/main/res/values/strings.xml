@@ -2,4 +2,9 @@
     <string name="app_name">Fitts\'s law</string>
     <string name="click_start">Click to start</string>
     <string name="results">Results</string>
+    <string name="export">Export</string>
+    <string name="details">Details</string>
+    <string name="trial_num">Trial #%1$02d</string>
+    <string name="difficulty_val">Difficulty: %1$f</string>
+    <string name="duration_val">Duration: %1$d ms</string>
 </resources>

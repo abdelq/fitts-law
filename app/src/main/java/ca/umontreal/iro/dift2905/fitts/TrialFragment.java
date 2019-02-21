@@ -18,7 +18,7 @@ public class TrialFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trial_list, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) view;
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(new MyTrialRecyclerViewAdapter(TrialContent.ITEMS));
 

@@ -1,33 +1,26 @@
 package ca.umontreal.iro.dift2905.fitts;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import ca.umontreal.iro.dift2905.fitts.TrialFragment.OnListFragmentInteractionListener;
-import ca.umontreal.iro.dift2905.fitts.dummy.DummyContent.DummyItem;
-
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
+import androidx.recyclerview.widget.RecyclerView;
+import ca.umontreal.iro.dift2905.fitts.trial.TrialContent.TrialItem;
+
 public class MyTrialRecyclerViewAdapter extends RecyclerView.Adapter<MyTrialRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final List<TrialItem> mValues;
 
-    public MyTrialRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    /* TODO */
+    public MyTrialRecyclerViewAdapter(List<TrialItem> items) {
         mValues = items;
-        mListener = listener;
     }
 
     @Override
+    /* TODO */
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_trial, parent, false);
@@ -35,21 +28,11 @@ public class MyTrialRecyclerViewAdapter extends RecyclerView.Adapter<MyTrialRecy
     }
 
     @Override
+    /* TODO */
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
+        holder.mIdView.setText(String.format("%d", position));
+        holder.mContentView.setText(mValues.get(position).toString());
     }
 
     @Override
@@ -57,17 +40,18 @@ public class MyTrialRecyclerViewAdapter extends RecyclerView.Adapter<MyTrialRecy
         return mValues.size();
     }
 
+    /* TODO */
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public TrialItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mIdView = view.findViewById(R.id.item_number);
+            mContentView = view.findViewById(R.id.content);
         }
 
         @Override

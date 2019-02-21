@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="num_trials">20</integer>
-    <integer name="max_ratio">2</integer>
     <integer name="min_ratio">25</integer>
+    <integer name="max_ratio">2</integer>
 </resources>

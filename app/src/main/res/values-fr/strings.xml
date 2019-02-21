@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">Loi de Fitts</string>
     <string name="click_start">Cliquez pour commencer</string>
+    <string name="results">Résultats</string>
 </resources>

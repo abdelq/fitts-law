@@ -7,10 +7,11 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import ca.umontreal.iro.dift2905.fitts.dummy.DummyContent;
 
 import android.view.View;
 
-public class ResultActivity extends AppCompatActivity {
+public class ResultActivity extends AppCompatActivity implements TrialFragment.OnListFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,5 +22,9 @@ public class ResultActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+        // FIXME
     }
 }

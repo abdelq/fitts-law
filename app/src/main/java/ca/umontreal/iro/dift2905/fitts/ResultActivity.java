@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import ca.umontreal.iro.dift2905.fitts.trial.TrialContent;
 
 import static androidx.core.app.NavUtils.navigateUpFromSameTask;
 
@@ -16,7 +16,7 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        setSupportActionBar(findViewById(R.id.toolbar));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -30,9 +30,9 @@ public class ResultActivity extends AppCompatActivity {
     public void export(View v) {
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
 
-        // TODO
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
-        sendIntent.setType("text/plain");
+        // XXX Text or File?
+        sendIntent.setType("text/csv");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, TrialContent.toCSV());
 
         startActivity(sendIntent);
     }

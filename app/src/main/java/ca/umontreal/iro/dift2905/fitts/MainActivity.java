@@ -19,6 +19,20 @@ import ca.umontreal.iro.dift2905.fitts.trial.TrialContent;
 
 import static java.lang.System.currentTimeMillis;
 
+/**
+ * La librairie utilisée pour faire le graphique est la librarie MPAndroidChart.
+ * Pour utilisation, cloner le git: https://github.com/PhilJay/MPAndroidChart.git
+ * dans le repo du projet.
+ *
+ * Pour plus d'information:
+ * - Lien vers le git
+ * https://github.com/PhilJay/MPAndroidChart
+ *
+ * - Documentation
+ * https://github.com/PhilJay/MPAndroidChart/wiki
+ *
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private int numTrials;

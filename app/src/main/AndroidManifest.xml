@@ -12,6 +12,15 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".GraphResultActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".ResultActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.umontreal.iro.dift2905.fitts.ResultActivity" />
+        </activity>
+        <activity
             android:name=".ResultActivity"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity"

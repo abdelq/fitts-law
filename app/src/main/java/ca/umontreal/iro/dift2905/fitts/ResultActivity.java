@@ -36,4 +36,10 @@ public class ResultActivity extends AppCompatActivity {
 
         startActivity(sendIntent);
     }
+
+    public void graphResult(View v){
+        startActivity(new Intent(this, GraphResultActivity.class));
+        return;
+
+    }
 }

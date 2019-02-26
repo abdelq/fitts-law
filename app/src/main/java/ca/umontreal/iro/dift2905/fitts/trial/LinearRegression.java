@@ -46,11 +46,13 @@ public class LinearRegression {
     public String getIntercept() {
         return String.format("a = %f", intercept);
     }
+    public double getInterceptValue() {return intercept;}
 
     @SuppressLint("DefaultLocale")
     public String getSlope() {
         return String.format("b = %f", slope);
     }
+    public double getSlopeValue() {return slope;}
 
     @SuppressLint("DefaultLocale")
     public String getCoefficient() {

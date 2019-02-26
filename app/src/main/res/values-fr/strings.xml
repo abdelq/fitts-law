@@ -4,8 +4,12 @@
     <string name="click_start">Cliquez pour commencer</string>
     <string name="results">Résultats</string>
     <string name="export">Exporter</string>
+    <string name="graph">Voir le graphique</string>
     <string name="details">Détails</string>
     <string name="trial_num">Essai #%1$02d</string>
     <string name="difficulty_val">Difficulté : %1$f</string>
     <string name="duration_val">Durée : %1$d ms</string>
+    <string name="graphDescription">Ce graphe représente le temps de réaction (ms)
+        dépendant de la difficulté. Le temps de réaction est sur l\'axe des y et
+        la difficulté sur l\'axe des x.</string>
 </resources>

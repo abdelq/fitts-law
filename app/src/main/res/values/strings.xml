@@ -3,8 +3,12 @@
     <string name="click_start">Click to start</string>
     <string name="results">Results</string>
     <string name="export">Export</string>
+    <string name="graph">See graph</string>
     <string name="details">Details</string>
     <string name="trial_num">Trial #%1$02d</string>
     <string name="difficulty_val">Difficulty: %1$f</string>
     <string name="duration_val">Duration: %1$d ms</string>
+    <string name="graphDescription">This graph represant the reaction time (ms)
+         depending on the difficulty. The reaction time is on the y axis
+        and the difficulty on the x axis</string>
 </resources>

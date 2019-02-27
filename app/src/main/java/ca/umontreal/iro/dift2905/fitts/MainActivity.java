@@ -33,6 +33,11 @@ import static java.lang.System.currentTimeMillis;
  *
  */
 
+/**
+ * La classe MainActivity fournit des méthodes pour l'activité principale
+ * qui affiche un bouton, et qui change ses dimensions et sa position après
+ * un clique.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private int numTrials;
@@ -106,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    /*
+     * Initialise un nouveau test avec un bouton ayant des dimensions
+     * et un positionnement différents
+     */
     private void newTrial() {
         if (++numTrials > maxTrials) {
             startActivity(new Intent(this, ResultActivity.class));
@@ -124,11 +133,25 @@ public class MainActivity extends AppCompatActivity {
         setDimensions(button, buttonSize, buttonSize);
     }
 
+    /*
+     * Change la position x et y d'une vue
+     *
+     * @param view vue de laquelle on veut changer la position x et y
+     * @param x nouvelle position x
+     * @param y nouvelle position y
+     */
     private void setPosition(View view, float x, float y) {
         view.setX(x);
         view.setY(y);
     }
 
+    /*
+     * Change la longueur et la largeur d'une vue
+     *
+     * @param view vue de laquelle on veut changer les dimensions
+     * @param width la largeur qu'on veut donner à la vue
+     * @param height la heuteur qu'on veut donner à la vue
+     */
     private void setDimensions(View view, int width, int height) {
         LayoutParams params = view.getLayoutParams();
         params.width = width;

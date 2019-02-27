@@ -10,6 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import ca.umontreal.iro.dift2905.fitts.trial.LinearRegression;
 
+/**
+ * La classe ResultActivityFragment s'occupe d'afficher
+ * les valeurs de l'intersection avec l'ordonnée, la pente,
+ * et le coéficient de corrélation linéaire.
+ */
 public class ResultActivityFragment extends Fragment {
 
     public static LinearRegression reg;

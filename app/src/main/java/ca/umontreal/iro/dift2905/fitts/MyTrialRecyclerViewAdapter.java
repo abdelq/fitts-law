@@ -13,6 +13,10 @@ import ca.umontreal.iro.dift2905.fitts.trial.TrialContent.TrialItem;
 
 import static android.view.LayoutInflater.from;
 
+/**
+ * La classe MyTrialRecyclerViewAdapter s'occupe de l'affichage
+ * de l'indice de difficulté et du temps de réaction pour chaque essai.
+ */
 public class MyTrialRecyclerViewAdapter extends RecyclerView.Adapter<MyTrialRecyclerViewAdapter.ViewHolder> {
 
     private final List<TrialItem> mValues;
@@ -22,8 +26,7 @@ public class MyTrialRecyclerViewAdapter extends RecyclerView.Adapter<MyTrialRecy
     }
 
     @Override
-    public @NonNull
-    ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public @NonNull ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(from(parent.getContext()).inflate(R.layout.fragment_trial, parent, false));
     }
 

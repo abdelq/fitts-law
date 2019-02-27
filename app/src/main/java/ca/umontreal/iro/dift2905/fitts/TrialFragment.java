@@ -11,6 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.umontreal.iro.dift2905.fitts.trial.TrialContent;
 
+/**
+ * La classe TrialFragment s'occupe de l'affichage de la liste
+ * détaillée présentant les essais et leurs résultats.
+ */
 public class TrialFragment extends Fragment {
 
     @Override

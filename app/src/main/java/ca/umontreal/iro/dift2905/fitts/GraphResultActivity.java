@@ -36,6 +36,12 @@ import static ca.umontreal.iro.dift2905.fitts.trial.TrialContent.ITEMS;
  * https://github.com/PhilJay/MPAndroidChart/wiki
  *
  */
+
+/**
+ * La classe GraphResultActivity fournit des méthodes pour l'activité qui
+ * affiche un graphique de type nuage de points, sur lequel sont représentés
+ * les points de données et de la droite de régression linéaire.
+ */
 public class GraphResultActivity extends AppCompatActivity {
 
     @Override
@@ -56,6 +62,9 @@ public class GraphResultActivity extends AppCompatActivity {
         navigateUpFromSameTask(this);
     }
 
+    /*
+     * Création du graphique
+     */
     public void createGraph(){
 
         CombinedChart chart = findViewById(R.id.chart);
@@ -74,6 +83,12 @@ public class GraphResultActivity extends AppCompatActivity {
         chart.invalidate(); // refresh
     }
 
+    /*
+     * Initiation des axes
+     *
+     * @param chart
+     * @param data
+     */
     private void setAxis(CombinedChart chart, CombinedData data){
         //Set x Axis
         XAxis xAxis = chart.getXAxis();
@@ -87,6 +102,10 @@ public class GraphResultActivity extends AppCompatActivity {
         chart.getAxisLeft().setAxisMinimum(Math.max(data.getYMin()-5f, 0));
     }
 
+    /*
+     * @param xmax
+     * @return la droite de régression linéaire
+     */
     private LineData getLineData(float xmax) {
         List<Entry> entry = new ArrayList<>();
 
@@ -108,6 +127,9 @@ public class GraphResultActivity extends AppCompatActivity {
         return new LineData(set);
     }
 
+    /*
+     * @return les points de données
+     */
     public ScatterData getScatterData(){
         ArrayList<Entry> entry = new ArrayList<>();
 

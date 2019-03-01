@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,20 +17,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import ca.umontreal.iro.dift2905.fitts.trial.TrialContent;
 
 import static java.lang.System.currentTimeMillis;
-
-/**
- * La librairie utilisée pour faire le graphique est la librarie MPAndroidChart.
- * Pour utilisation, cloner le git: https://github.com/PhilJay/MPAndroidChart.git
- * dans le repo du projet.
- *
- * Pour plus d'information:
- * - Lien vers le git
- * https://github.com/PhilJay/MPAndroidChart
- *
- * - Documentation
- * https://github.com/PhilJay/MPAndroidChart/wiki
- *
- */
 
 /**
  * La classe MainActivity fournit des méthodes pour l'activité principale
@@ -94,11 +79,13 @@ public class MainActivity extends AppCompatActivity {
         @SuppressLint("ClickableViewAccessibility")
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                TrialContent.add(
-                        currentTimeMillis() - lastTime,
-                        event.getX() - lastPosX, event.getY() - lastPosY,
-                        v.getWidth()
-                );
+                if (numTrials <= maxTrials) { // XXX
+                    TrialContent.add(
+                            currentTimeMillis() - lastTime,
+                            event.getX() - lastPosX, event.getY() - lastPosY,
+                            v.getWidth()
+                    );
+                }
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 lastTime = currentTimeMillis();
                 lastPosX = event.getX();

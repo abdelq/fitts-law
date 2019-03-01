@@ -1,7 +1,5 @@
 package ca.umontreal.iro.dift2905.fitts.trial;
 
-import android.annotation.SuppressLint;
-
 import ca.umontreal.iro.dift2905.fitts.trial.TrialContent.TrialItem;
 
 import static ca.umontreal.iro.dift2905.fitts.trial.TrialContent.ITEMS;
@@ -42,20 +40,15 @@ public class LinearRegression {
         coefficient = ssr / yyMean;
     }
 
-    @SuppressLint("DefaultLocale")
-    public String getIntercept() {
-        return String.format("a = %f", intercept);
+    public double getIntercept() {
+        return intercept;
     }
-    public double getInterceptValue() {return intercept;}
 
-    @SuppressLint("DefaultLocale")
-    public String getSlope() {
-        return String.format("b = %f", slope);
+    public double getSlope() {
+        return slope;
     }
-    public double getSlopeValue() {return slope;}
 
-    @SuppressLint("DefaultLocale")
-    public String getCoefficient() {
-        return String.format("r² = %f", coefficient);
+    public double getCoefficient() {
+        return coefficient;
     }
 }

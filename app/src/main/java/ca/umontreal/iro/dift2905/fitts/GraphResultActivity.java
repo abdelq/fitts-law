@@ -17,30 +17,17 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
-import ca.umontreal.iro.dift2905.fitts.trial.TrialContent;
+import ca.umontreal.iro.dift2905.fitts.trial.TrialContent.TrialItem;
 
-import static androidx.core.app.NavUtils.navigateUpFromSameTask;
+import static ca.umontreal.iro.dift2905.fitts.ResultActivity.reg;
 import static ca.umontreal.iro.dift2905.fitts.trial.TrialContent.ITEMS;
-
-
-/**
- * La librairie utilisée pour faire le graphique est la librarie MPAndroidChart.
- * Pour utilisation, cloner le git: https://github.com/PhilJay/MPAndroidChart.git
- * dans le repo du projet.
- *
- * Pour plus d'information:
- * - Lien vers le git
- * https://github.com/PhilJay/MPAndroidChart
- *
- * - Documentation
- * https://github.com/PhilJay/MPAndroidChart/wiki
- *
- */
 
 /**
  * La classe GraphResultActivity fournit des méthodes pour l'activité qui
  * affiche un graphique de type nuage de points, sur lequel sont représentés
  * les points de données et de la droite de régression linéaire.
+ *
+ * La librairie utilisée pour le graphique est MPAndroidChart.
  */
 public class GraphResultActivity extends AppCompatActivity {
 
@@ -57,22 +44,16 @@ public class GraphResultActivity extends AppCompatActivity {
         createGraph();
     }
 
-    @Override
-    public void onBackPressed() {
-        navigateUpFromSameTask(this);
-    }
-
     /*
      * Création du graphique
      */
-    public void createGraph(){
-
+    public void createGraph() {
         CombinedChart chart = findViewById(R.id.chart);
-        CombinedData combinedData = new CombinedData();
 
         ScatterData scatterData = getScatterData();
         LineData lineData = getLineData(scatterData.getXMax());
 
+        CombinedData combinedData = new CombinedData();
         combinedData.setData(scatterData);
         combinedData.setData(lineData);
         setAxis(chart, combinedData);
@@ -80,49 +61,45 @@ public class GraphResultActivity extends AppCompatActivity {
         chart.setData(combinedData);
         chart.getDescription().setText("");
         chart.getLegend().setEnabled(false);
-        chart.invalidate(); // refresh
+        chart.invalidate(); // Refresh
     }
 
     /*
      * Initiation des axes
      *
-     * @param chart
-     * @param data
+     * @param chart graphique
+     * @param data données du graphique
      */
-    private void setAxis(CombinedChart chart, CombinedData data){
-        //Set x Axis
+    private void setAxis(CombinedChart chart, CombinedData data) {
+        // Initialiser l'axe des X
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setAxisMaximum(data.getXMax()+0.25f);
-        xAxis.setAxisMinimum(Math.max(data.getXMin()-0.25f, 0));
+        xAxis.setAxisMaximum(data.getXMax() + .25f);
+        xAxis.setAxisMinimum(Math.max(data.getXMin() - .25f, 0));
 
-        //Set y Axis
+        // Initialiser l'axe des Y
         chart.getAxisRight().setEnabled(false);
         chart.getAxisLeft().setSpaceTop(10);
-        chart.getAxisLeft().setAxisMinimum(Math.max(data.getYMin()-5f, 0));
+        chart.getAxisLeft().setAxisMinimum(Math.max(data.getYMin() - 5, 0));
     }
 
     /*
-     * @param xmax
+     * @param xMax plus grande valeur de x
      * @return la droite de régression linéaire
      */
-    private LineData getLineData(float xmax) {
-        List<Entry> entry = new ArrayList<>();
+    private LineData getLineData(float xMax) {
+        List<Entry> entries = new ArrayList<>();
 
-        float origine = (float) ResultActivityFragment.reg.getInterceptValue();
-        float pente = (float) ResultActivityFragment.reg.getSlopeValue();
+        float intercept = (float) reg.getIntercept();
+        float slope = (float) reg.getSlope();
 
-        float extremePoint = origine+(xmax*pente);
+        entries.add(new Entry(0, intercept));
+        entries.add(new Entry(xMax, intercept + slope * xMax));
 
-        entry.add(new Entry(0, origine));
-        entry.add(new Entry(xmax, extremePoint));
-
-        Collections.sort(entry, new EntryXComparator());
-        LineDataSet set = new LineDataSet(entry, "");
-
-        set.setDrawCircles(false);
-        set.setDrawValues(false);
+        LineDataSet set = new LineDataSet(entries, "");
         set.setColor(getColor(R.color.colorAccent));
+        set.setDrawValues(false);
+        set.setDrawCircles(false);
 
         return new LineData(set);
     }
@@ -130,16 +107,14 @@ public class GraphResultActivity extends AppCompatActivity {
     /*
      * @return les points de données
      */
-    public ScatterData getScatterData(){
-        ArrayList<Entry> entry = new ArrayList<>();
-
-        for (TrialContent.TrialItem trial : ITEMS) {
-            entry.add(new Entry((float) trial.difficulty, (float) trial.duration));
+    public ScatterData getScatterData() {
+        ArrayList<Entry> entries = new ArrayList<>();
+        for (TrialItem trial : ITEMS) {
+            entries.add(new Entry((float) trial.difficulty, (float) trial.duration));
         }
+        Collections.sort(entries, new EntryXComparator());
 
-        Collections.sort(entry, new EntryXComparator());
-        ScatterDataSet set = new ScatterDataSet(entry,"");
-
+        ScatterDataSet set = new ScatterDataSet(entries, "");
         set.setColor(getColor(R.color.colorAccent));
         set.setDrawValues(false);
 

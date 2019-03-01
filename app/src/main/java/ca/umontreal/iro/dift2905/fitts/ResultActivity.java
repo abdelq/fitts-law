@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import ca.umontreal.iro.dift2905.fitts.trial.LinearRegression;
 import ca.umontreal.iro.dift2905.fitts.trial.TrialContent;
 
 import static androidx.core.app.NavUtils.navigateUpFromSameTask;
@@ -15,6 +16,8 @@ import static androidx.core.app.NavUtils.navigateUpFromSameTask;
  * présente les résultats.
  */
 public class ResultActivity extends AppCompatActivity {
+
+    public static LinearRegression reg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class ResultActivity extends AppCompatActivity {
     /*
      * Exporter les résultats
      *
-     * @param v
+     * @param v view du bouton
      */
     public void export(View v) {
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
@@ -50,11 +53,9 @@ public class ResultActivity extends AppCompatActivity {
     /*
      * Consulter le graphique
      *
-     * @param v
+     * @param v view du bouton
      */
-    public void graphResult(View v){
+    public void graph(View v) {
         startActivity(new Intent(this, GraphResultActivity.class));
-        return;
-
     }
 }

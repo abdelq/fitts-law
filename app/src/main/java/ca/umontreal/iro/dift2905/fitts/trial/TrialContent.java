@@ -21,7 +21,7 @@ public class TrialContent {
      *
      * @param duration temps écoulé pour l'essai
      * @param distX distance entre la position x précédente et courante
-     * @param distY distance entre la position y précédente et courante 
+     * @param distY distance entre la position y précédente et courante
      * @param dimension du bouton
      */
     public static void add(long duration, float distX, float distY, int dimension) {
@@ -50,7 +50,7 @@ public class TrialContent {
     }
 
     /*
-     * @return une chaine de caractères contenant les informations
+     * @return une chaîne de caractères contenant les informations
      * de tous les essais
      */
     public static String toCSV() {
@@ -60,8 +60,8 @@ public class TrialContent {
     }
 
     /*
-     * Classe qui crée un essai avec les informations sur 
-     * le temps écoulé et la difficulté de celui-ci
+     * Classe qui crée un essai avec les informations sur le temps écoulé
+     * et la difficulté de celui-ci
      */
     public static class TrialItem {
         public final double difficulty;
